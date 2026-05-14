@@ -21,13 +21,13 @@ function toggleMenu() {
 
 // Send mail
 ///////////////////////////////////////////////////////////////////////////////
-const PUBLIC_KEY = 'hfgKxpOi2zv3KWsCP';
 const SERVICE_ID = 'service_5j7x2xc';
 const TEMPLATE_ID = 'template_kwd7tc7';
 
 function sendEmail(event) {
   event.preventDefault();
 
+  // Estos IDs deben coincidir con los de tu formulario en contact_me.html
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
   const message = document.getElementById('message').value;
@@ -36,16 +36,15 @@ function sendEmail(event) {
     from_name: name,
     from_email: email,
     message: message,
+    reply_to: email
   };
 
-  // Send mail EmailJS
-  emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+  emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
     .then((response) => {
-      console.log('SUCCESS!', response.status, response.text);
-      alert('Email sent successfully!');
+      alert('Message sent! I will contact you soon.');
+      document.getElementById('contact-form').reset();
     }, (err) => {
-      console.error('FAILED...', err);
-      alert('Error sending email, please try again.');
+      alert('Error: ' + JSON.stringify(err));
     });
 }
 ///////////////////////////////////////////////////////////////////////////////
